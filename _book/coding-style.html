@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 20 Coding style | Proteomics Data Analysis in R</title>
+<meta name="author" content="Nico Hüttmann">
+<meta name="description" content="Okay, we nearly made it to our project. One last chapter. I promise. One decision which you may have already guessed, is that I am a follower of the tidyverse and try to use it instead of the base...">
+<meta name="generator" content="bookdown 0.38 with bs4_book()">
+<meta property="og:title" content="Chapter 20 Coding style | Proteomics Data Analysis in R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Okay, we nearly made it to our project. One last chapter. I promise. One decision which you may have already guessed, is that I am a follower of the tidyverse and try to use it instead of the base...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 20 Coding style | Proteomics Data Analysis in R">
+<meta name="twitter:description" content="Okay, we nearly made it to our project. One last chapter. I promise. One decision which you may have already guessed, is that I am a follower of the tidyverse and try to use it instead of the base...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Proteomics Data Analysis in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="navigation.html">Navigation</a></li>
+<li class="book-part">The Proteomics Workflow</li>
+<li><a class="" href="overview.html"><span class="header-section-number">2</span> Overview</a></li>
+<li class="book-part">Functional Proteomics</li>
+<li><a class="" href="introduction.html"><span class="header-section-number">4</span> Introduction</a></li>
+<li><a class="" href="tpp.html"><span class="header-section-number">5</span> TPP</a></li>
+<li><a class="" href="spp.html"><span class="header-section-number">6</span> SPP</a></li>
+<li><a class="" href="pelsa.html"><span class="header-section-number">7</span> PELSA</a></li>
+<li class="book-part">Protein Turnover Analysis</li>
+<li><a class="" href="overview-1.html"><span class="header-section-number">9</span> Overview</a></li>
+<li class="book-part">Databases and Enrichment Analysis</li>
+<li><a class="" href="overview-2.html"><span class="header-section-number">11</span> Overview</a></li>
+<li class="book-part">Data Visualization</li>
+<li><a class="" href="overview-3.html"><span class="header-section-number">13</span> Overview</a></li>
+<li class="book-part">Miscellaneous</li>
+<li><a class="" href="raw-ms-data.html"><span class="header-section-number">15</span> Raw MS Data</a></li>
+<li class="book-part">R Basics</li>
+<li><a class="" href="r-and-rstudio.html"><span class="header-section-number">16</span> R and RStudio</a></li>
+<li><a class="" href="how-does-r-work.html"><span class="header-section-number">17</span> How does R work?</a></li>
+<li><a class="" href="r-packages.html"><span class="header-section-number">18</span> R packages</a></li>
+<li><a class="" href="the-tidyverse.html"><span class="header-section-number">19</span> The tidyverse</a></li>
+<li><a class="active" href="coding-style.html"><span class="header-section-number">20</span> Coding style</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="version-control-with-github.html"><span class="header-section-number">A</span> Version control with GitHub</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/nicohuttmann/proteomics-data-analysis">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="coding-style" class="section level1" number="20">
+<h1>
+<span class="header-section-number">20</span> Coding style<a class="anchor" aria-label="anchor" href="#coding-style"><i class="fas fa-link"></i></a>
+</h1>
+<p>Okay, we nearly made it to our project. One last chapter. I promise.</p>
+<p>One decision which you may have already guessed, is that I am a follower of the tidyverse and try to use it instead of the base R solutions wherever possible.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;base R refers to the functions which are available to you in R without installing any additional package. And little surprisingly, it is a package as well. You could check it’s functions by writing &lt;code&gt;base::&lt;/code&gt;and pressing Tab. &lt;em&gt;I just found all the basic mathematical operators by doing this and scrolling up. I’m learning so much by doing this!&lt;/em&gt;&lt;/p&gt;"><sup>15</sup></a> Still, it is not almighty and sometimes you will need other solutions. For example dividing two data frames through each other would require the tidyverse functions <code>pivot_longer</code>, <code>inner_join</code>, <code>mutate</code> and <code>pivot_wider</code>. The elegant base R solution is having the data as matrices and simply using the mathematical operator <code>/</code>.</p>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button3" aria-expanded="false" aria-controls="button3">
+base R solution
+</button>
+<div id="button3" class="collapse">
+<p><br></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>, nrow <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">m2</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>, nrow <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span></span>
+<span></span>
+<span><span class="va">m2</span> <span class="op">/</span> <span class="va">m1</span></span></code></pre></div>
+</div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button4" aria-expanded="false" aria-controls="button4">
+tidyverse solution
+</button>
+<div id="button4" class="collapse">
+<p><br></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Making the tibble works slightly different in our exampe </span></span>
+<span><span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, b <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">6</span>, c <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span></span>
+<span><span class="co"># and multiplying each element by 2 gets done with mutate and across. </span></span>
+<span><span class="co"># We will get back to this later</span></span>
+<span><span class="va">t2</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, b <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">6</span>, c <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># \(x) x * 2 is equivalent to function(x) x * 2</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">everything</span><span class="op">(</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">t2</span> <span class="op">/</span> <span class="va">t1</span></span></code></pre></div>
+<p>Damn, while writing this example, I found out that what I was trying to show not to work, did somehow work. But let me explain why I don’t like the example.</p>
+<p>The structure of an object in R can be found by using the <code><a href="https://rdrr.io/r/base/class.html">class()</a></code> function. Just try it.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">m2</span> <span class="op">/</span> <span class="va">m1</span><span class="op">)</span></span></code></pre></div>
+<p>All objects in the base R example are matrices. Let’s check the tidyverse example.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">t1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">t2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">t2</span> <span class="op">/</span> <span class="va">t1</span><span class="op">)</span></span></code></pre></div>
+<p>The output of the divide operation is not a <code>tibble</code>/“tbl_df” object anymore, it is a <code>data.frame</code>. This is not a big problem for now, and can be solved quite easily with the <code><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html">tibble::as_tibble()</a></code> function:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">t2</span> <span class="op">/</span> <span class="va">t1</span><span class="op">)</span></span></code></pre></div>
+<p>However, it is recommended to not change the <code>class</code> of your data in such a way during your analysis.</p>
+<p>The real tidyverse solution would work the following. The key is that we combine both tibbles into one which allows us to divide the columns through each other in a simple <code><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">dplyr::mutate()</a></code> operation.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># First we add a row column to the tibbles, this brings them closer to real data </span></span>
+<span><span class="va">t1_r</span> <span class="op">&lt;-</span> <span class="va">t1</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span><span class="op">)</span>, </span>
+<span>         .before <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co"># Do it again </span></span>
+<span><span class="va">t2_r</span> <span class="op">&lt;-</span> <span class="va">t2</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span><span class="op">)</span>, </span>
+<span>         .before <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co"># Now we bring our data from a wide format into a long format </span></span>
+<span><span class="va">t1_long</span> <span class="op">&lt;-</span> <span class="fu">pivot_longer</span><span class="op">(</span><span class="va">t1_r</span>, </span>
+<span>                        cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>, </span>
+<span>                        names_to <span class="op">=</span> <span class="st">"column"</span>, </span>
+<span>                        values_to <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span></span>
+<span><span class="co"># And again </span></span>
+<span><span class="va">t2_long</span> <span class="op">&lt;-</span> <span class="fu">pivot_longer</span><span class="op">(</span><span class="va">t2_r</span>, </span>
+<span>                        cols <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, </span>
+<span>                        names_to <span class="op">=</span> <span class="st">"column"</span>, </span>
+<span>                        values_to <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># We start with combining the data frames by matching both tibbles by the </span></span>
+<span><span class="co"># columns "row" and "column" and choosing a suffing for overlapping column names</span></span>
+<span><span class="fu">full_join</span><span class="op">(</span><span class="va">t1_long</span>, <span class="va">t2_long</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"row"</span>, </span>
+<span>                                   <span class="st">"column"</span><span class="op">)</span>, </span>
+<span>          suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"_1"</span>, <span class="st">"_2"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Then we can divide the values of t2 by t1 and save them in a new column </span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>number <span class="op">=</span> <span class="va">number_2</span> <span class="op">/</span> <span class="va">number_1</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Now we finally pivot back to the wide data format from the beginning</span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"row"</span>, </span>
+<span>              names_from <span class="op">=</span> <span class="st">"column"</span>, </span>
+<span>              values_from <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span></span></code></pre></div>
+<p>This seems like a very tedious example in comparison, but also bears it’s advantages as we will see later.</p>
+<p>Btw, this is how I would’ve done the above in a code-condensed form.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># First we put the tibbles in a list </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"t1"</span> <span class="op">=</span> <span class="va">t1</span>, <span class="st">"t2"</span> <span class="op">=</span> <span class="va">t2</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># map allows us to do the same computation for all objects of the list as </span></span>
+<span>  <span class="co"># defined by the function \(x) x...</span></span>
+<span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">%&gt;%</span> </span>
+<span>        <span class="fu">mutate</span><span class="op">(</span>row <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span><span class="op">)</span>, </span>
+<span>               .before <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>        <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, </span>
+<span>                     names_to <span class="op">=</span> <span class="st">"column"</span>, </span>
+<span>                     values_to <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Once both tibbles are ready to be combined, we can access them via the with </span></span>
+<span>  <span class="co"># function (we may talk about this again, I find it very helpful sometimes)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="fu">full_join</span><span class="op">(</span><span class="va">t1</span>, <span class="va">t2</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"row"</span>, </span>
+<span>                                <span class="st">"column"</span><span class="op">)</span>, </span>
+<span>                 suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"_1"</span>, <span class="st">"_2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Now we continue as above</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>number <span class="op">=</span> <span class="va">number_2</span> <span class="op">/</span> <span class="va">number_1</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># And back to a wide format tibble </span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"row"</span>, </span>
+<span>              names_from <span class="op">=</span> <span class="st">"column"</span>, </span>
+<span>              values_from <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span></span></code></pre></div>
+<p>You do not need to understand all of this immediately, but these are some of the most common operations in omics data science. If you understand the <code>tidyr::pivot_longer/wider</code> functions within this week, you’re years ahead compared to my journey in data science :)</p>
+</div>
+<div id="coding-style-1" class="section level2" number="20.1">
+<h2>
+<span class="header-section-number">20.1</span> Coding style<a class="anchor" aria-label="anchor" href="#coding-style-1"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="https://upload.wikimedia.org/wikipedia/en/b/b9/MagrittePipe.jpg"></div>
+<p>Well, what is this?! It is not a pipe. But this <code>%&gt;%</code> is. Or is it?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;You can read the history to this picture when you are done with a section and really bored: &lt;a href="http://adolfoalvarez.cl/blog/2021-09-16-plumbers-chains-and-famous-painters-the-history-of-the-pipe-operator-in-r/" class="uri"&gt;http://adolfoalvarez.cl/blog/2021-09-16-plumbers-chains-and-famous-painters-the-history-of-the-pipe-operator-in-r/&lt;/a&gt;&lt;/p&gt;'><sup>16</sup></a></p>
+<p>We previously learned that “Everything that happens is a function call.” and in order for the result of the function to ‘exist’, we need to assign it as an object. Fine. Works. But what happens if we need to do multiple operations on the same object to get our result?</p>
+<p>Let’s consider the generic example of a vector that contains letters which we would like to count and represent in a barplot.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">letters_freq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span> <span class="op">=</span> <span class="fl">5</span>, <span class="st">"B"</span> <span class="op">=</span> <span class="fl">18</span>, <span class="st">"C"</span> <span class="op">=</span> <span class="fl">20</span>, <span class="st">"D"</span> <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                  <span class="st">"E"</span> <span class="op">=</span> <span class="fl">24</span>, <span class="st">"F"</span> <span class="op">=</span> <span class="fl">13</span>, <span class="st">"G"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="st">"H"</span> <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>                  <span class="st">"I"</span> <span class="op">=</span> <span class="fl">21</span>, <span class="st">"J"</span> <span class="op">=</span> <span class="fl">11</span>, <span class="st">"K"</span> <span class="op">=</span> <span class="fl">19</span>, <span class="st">"L"</span> <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>                  <span class="st">"M"</span> <span class="op">=</span> <span class="fl">10</span>, <span class="st">"N"</span> <span class="op">=</span> <span class="fl">14</span>, <span class="st">"O"</span> <span class="op">=</span> <span class="fl">16</span>, <span class="st">"P"</span> <span class="op">=</span> <span class="fl">9</span>,</span>
+<span>                  <span class="st">"Q"</span> <span class="op">=</span> <span class="fl">23</span>, <span class="st">"R"</span> <span class="op">=</span> <span class="fl">17</span>, <span class="st">"S"</span> <span class="op">=</span> <span class="fl">8</span>, <span class="st">"T"</span> <span class="op">=</span> <span class="fl">26</span>,</span>
+<span>                  <span class="st">"U"</span> <span class="op">=</span> <span class="fl">22</span>, <span class="st">"V"</span> <span class="op">=</span> <span class="fl">7</span>, <span class="st">"W"</span> <span class="op">=</span> <span class="fl">15</span>, <span class="st">"X"</span> <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                  <span class="st">"Y"</span> <span class="op">=</span> <span class="fl">3</span>, <span class="st">"Z"</span> <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">random_letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">letters_freq</span><span class="op">)</span>, <span class="va">letters_freq</span><span class="op">)</span></span></code></pre></div>
+<p>This is the first exercise in this book<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;I call it an exercise, because I am not sure if it is well explained and therefore the ‘exercise’ is to understand what I intend to show you here :)&lt;/p&gt;"><sup>17</sup></a>. Once you are done with the above code, observe what happened and then continue with the code below.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Count each element of random_letters </span></span>
+<span><span class="va">random_letters_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">random_letters</span><span class="op">)</span></span>
+<span><span class="co"># Sort table in decending order </span></span>
+<span><span class="va">random_letters_table_sorted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">random_letters_table</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co"># Plot the frequency of each letter </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">random_letters_table_sorted</span><span class="op">)</span></span></code></pre></div>
+<p>The code above yields a barplot that represents the frequency of each letter. To get to our result, we created two intermediate objects <code>random_letters_table</code> and <code>random_letters_table_sorted</code>. We can do the same all with the <code>random_letters</code> object, simply overwriting it in each line.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Count each element of random_letters </span></span>
+<span><span class="va">random_letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">random_letters</span><span class="op">)</span></span>
+<span><span class="co"># Sort table in descending order </span></span>
+<span><span class="va">random_letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">random_letters</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co"># Plot the frequency of each letter </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">random_letters</span><span class="op">)</span></span></code></pre></div>
+<p>You saw in the examples above that there are different ways to chain the outputs of the different computations into each other to arrive at the barplot. Let’s try and use the <code>%&gt;%</code> operator to simplify this process.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># We reassign random_letters since we overwrote it in the previous example</span></span>
+<span><span class="va">random_letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">letters_freq</span><span class="op">)</span>, <span class="va">letters_freq</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">random_letters</span> <span class="op">%&gt;%</span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span>decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The chain begins with an object <code>random_letters</code> and is then followed by functions in each subsequent line. The output of the preceding line is always used as the first argument of the following function.</p>
+<p>The above is equivalent to this nested construct:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Multiple functions within each other get evaluated from the inside to the outside.&lt;/p&gt;"><sup>18</sup></a></p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">random_letters</span><span class="op">)</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>I hope it is obvious why the <code>%&gt;%</code> is a useful tool, not just for writing less code but also making the code more legible. Btw, did you find the hidden message in the barplot? If not, try and stretch the ‘Plots’ window or press ‘Zoom’ in the ‘Plots’ panel.</p>
+<p>The making of this exercise is an even better example of the utility of the <code>%&gt;%</code> :)</p>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button5" aria-expanded="false" aria-controls="button5">
+Making of
+</button>
+<div id="button5" class="collapse">
+<p><br></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sentence_full</span> <span class="op">&lt;-</span> <span class="st">"The quick brown fox jumps over the lazy dog"</span></span>
+<span><span class="co">## Unrelated but, wow I just discovered there's a `sentences` object in R</span></span>
+<span></span>
+<span><span class="co"># Generate the frequency of each individual letter</span></span>
+<span><span class="va">letters_freq</span> <span class="op">&lt;-</span> <span class="va">sentence_full</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Remove spaces</span></span>
+<span>  <span class="fu">str_remove_all</span><span class="op">(</span><span class="st">" "</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Split the string into individual letters </span></span>
+<span>  <span class="fu">str_split</span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Extract vector from list </span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Make all letters upper case</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Remove dublicated letters </span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Make vector with letters as names and numbers from 26 to 1 as content</span></span>
+<span>  <span class="co"># Do you see how the . marks the position of the argument coming from the previous line?</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fl">26</span><span class="op">:</span><span class="fl">1</span>, <span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Reorder the vector so that the solution is not immediately obvious to you guys </span></span>
+<span>  <span class="co"># Not this is some weird stuff here, do try this at home</span></span>
+<span>  <span class="fu">`[`</span><span class="op">(</span><span class="va">.</span>, <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Test if it works</span></span>
+<span><span class="va">random_letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">letters_freq</span><span class="op">)</span>, <span class="va">letters_freq</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Now prepare the example for the exercise</span></span>
+<span></span>
+<span><span class="co"># This function copies a vector to the console </span></span>
+<span><span class="va">.cat_character_named</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span>, <span class="st">'" = "'</span>, <span class="va">...</span>, <span class="st">'"'</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'c("'</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">n</span>, collapse <span class="op">=</span> <span class="st">',\n\t"'</span><span class="op">)</span>, <span class="st">')'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">.cat_character_named</span><span class="op">(</span><span class="va">random_letters</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">letters_freq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span> <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                  <span class="st">"B"</span> <span class="op">=</span> <span class="fl">18</span>,</span>
+<span>                  <span class="st">"C"</span> <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>                  <span class="st">"D"</span> <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                  <span class="st">"E"</span> <span class="op">=</span> <span class="fl">24</span>,</span>
+<span>                  <span class="st">"F"</span> <span class="op">=</span> <span class="fl">13</span>,</span>
+<span>                  <span class="st">"G"</span> <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                  <span class="st">"H"</span> <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>                  <span class="st">"I"</span> <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>                  <span class="st">"J"</span> <span class="op">=</span> <span class="fl">11</span>,</span>
+<span>                  <span class="st">"K"</span> <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>                  <span class="st">"L"</span> <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>                  <span class="st">"M"</span> <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                  <span class="st">"N"</span> <span class="op">=</span> <span class="fl">14</span>,</span>
+<span>                  <span class="st">"O"</span> <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>                  <span class="st">"P"</span> <span class="op">=</span> <span class="fl">9</span>,</span>
+<span>                  <span class="st">"Q"</span> <span class="op">=</span> <span class="fl">23</span>,</span>
+<span>                  <span class="st">"R"</span> <span class="op">=</span> <span class="fl">17</span>,</span>
+<span>                  <span class="st">"S"</span> <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>                  <span class="st">"T"</span> <span class="op">=</span> <span class="fl">26</span>,</span>
+<span>                  <span class="st">"U"</span> <span class="op">=</span> <span class="fl">22</span>,</span>
+<span>                  <span class="st">"V"</span> <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>                  <span class="st">"W"</span> <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>                  <span class="st">"X"</span> <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                  <span class="st">"Y"</span> <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>                  <span class="st">"Z"</span> <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p><br>
+For a probably better explanation of pipes or more in-depth explanation, please have a look at the <a href="https://r4ds.had.co.nz/pipes.html">corresponding chapter</a> in <a href="https://r4ds.had.co.nz/">R for Data Science</a> or the <a href="https://r4ds.hadley.nz/workflow-style.html#sec-pipes">chapter</a> in its second edition, <a href="https://r4ds.hadley.nz">R for Data Science (2e)</a>.</p>
+<p>Using the <code>%&gt;%</code> pipe operator is only one part of the <a href="https://r4ds.hadley.nz/workflow-style.html">Style guide</a> but will have a big impact on the legibility of your code. I visually prefer the <a href="http://adv-r.had.co.nz/Style.html">old version</a> and suggest reading one of the two. If you are at the beginning of your coding career, not all recommendations will be immediately obvious, but you will remember them later on.</p>
+</div>
+<div id="data-organization-wihtin-r" class="section level2" number="20.2">
+<h2>
+<span class="header-section-number">20.2</span> Data organization wihtin R<a class="anchor" aria-label="anchor" href="#data-organization-wihtin-r"><i class="fas fa-link"></i></a>
+</h2>
+<p>As we are moving from the basics to the actual project, let’s see how we work <em>with</em> R. Working <em>in</em> R means which packages or code do we use, working <em>with</em> R means where do we put our code and our data. Let’s start at the top level. Where do our scripts and data live?</p>
+<div id="r-projects" class="section level3" number="20.2.1">
+<h3>
+<span class="header-section-number">20.2.1</span> R projects<a class="anchor" aria-label="anchor" href="#r-projects"><i class="fas fa-link"></i></a>
+</h3>
+<p>We will not just work on an R project, we will also work in one. Please have a look at the description of <a href="https://r4ds.hadley.nz/workflow-scripts.html#projects">R projects</a> in this by now well known book. As we get closer to the <strong>Group Work Project</strong> let’s start with creating a place for our data and code.</p>
+<div class="rmdnote">
+<p>Create your own R project for this course. I suggest to make a folder called R within your Documents folder or wherever you store your research. In here, you could start to collect different R projects.</p>
+</div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button6" aria-expanded="false" aria-controls="button6">
+Hint
+</button>
+<div id="button6" class="collapse">
+<p><br>
+You can create a new R project by clicking File -&gt; New Project… -&gt; New Directory -&gt; New Project. Now enter the name<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;please no spaces&lt;/p&gt;"><sup>19</sup></a>, browse to the top folder you would like and press Create Project. If you want to keep your current R session open, tick Open in new session.</p>
+</div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button7" aria-expanded="false" aria-controls="button7">
+Additional info
+</button>
+<div id="button7" class="collapse">
+<p><br>
+It may seem convenient to have this folder on the server of your lab, so it gets archived automatically, however, it sometimes gives you trouble and slows down your analysis. Copying the R folder from time to time seems like the practical solution for me.</p>
+</div>
+<p><br>
+Great, you created your first R project. You can identify in which project you are by the name of the window or as written in the top right corner.</p>
+<p>Before creating our first R script, we can set a folder structure within our R project. This can be done from the operating system’s file explorer or with the function <code>dir.create</code>. I usually begin setting up my work directory like this:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># All R and Rmd scripts will be in here </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"Scripts"</span><span class="op">)</span></span>
+<span><span class="co"># All raw data can be stored here </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"Data"</span><span class="op">)</span></span>
+<span><span class="co"># A separate folder for RData objects </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"Data/RData"</span><span class="op">)</span></span>
+<span><span class="co"># All output like figures, tables etc. </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"Output"</span><span class="op">)</span></span></code></pre></div>
+<p>Do this as you like :)</p>
+</div>
+<div id="lists-and-.lists" class="section level3" number="20.2.2">
+<h3>
+<span class="header-section-number">20.2.2</span> Lists and .lists<a class="anchor" aria-label="anchor" href="#lists-and-.lists"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now our data has a tidy place to live in our operating system. Nice. But what about our data <em>in R</em>?</p>
+<p>Everything in R lives in the <code>Global Environment</code>. You can read more about this <a href="https://adv-r.hadley.nz/environments.html">here</a>, but do this when there is some free time or you have specific questions.</p>
+<p>We previously touched on vectors and lists, with the main difference that vectors only take one kind of element and lists can store whatever you fancy. And that’s what we want.</p>
+<p>Imagine you need to compute the following incredibly complicated numbers and want to store them for the meeting with your PI later:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="fl">1</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">3</span></span>
+<span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">*</span> <span class="cn">Inf</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">0</span></span>
+<span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">j</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pi</span>, base <span class="op">=</span> <span class="va">pi</span><span class="op">)</span></span>
+<span><span class="va">k</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&gt;</span> <span class="va">b</span></span>
+<span><span class="va">l</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&lt;</span> <span class="va">b</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">==</span> <span class="va">b</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&gt;=</span> <span class="va">b</span></span>
+<span><span class="va">o</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&lt;=</span> <span class="va">b</span></span></code></pre></div>
+<p>Omg, do you see how your Global Environment on the top right gets cluttered. Your PI won’t like that. Let’s tidy this up by using a list.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Directly store the first numbers in the list</span></span>
+<span><span class="va">important_numbers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  a <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> <span class="fl">1</span>, </span>
+<span>  b <span class="op">=</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">3</span>, </span>
+<span>  c <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="cn">Inf</span>, </span>
+<span>  <span class="co"># You can also use a string "d" to define the name, it's the same</span></span>
+<span>  <span class="st">"d"</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">0</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add the remaining numbers</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"e"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"f"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"g"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"h"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"i"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"j"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pi</span>, base <span class="op">=</span> <span class="va">pi</span><span class="op">)</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"k"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&gt;</span> <span class="va">b</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"l"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&lt;</span> <span class="va">b</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"m"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">==</span> <span class="va">b</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"n"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&gt;=</span> <span class="va">b</span></span>
+<span><span class="va">important_numbers</span><span class="op">[[</span><span class="st">"o"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&lt;=</span> <span class="va">b</span></span></code></pre></div>
+<p>Click on <code>important_numbers</code> on the top right<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;not the blue arrow, but try this out as well&lt;/p&gt;"><sup>20</sup></a> and you can view the content of the list. This is equivalent to writing <code>View(important_numbers)</code> in your console or from your R script.</p>
+<p>Finally, let’s clean up the mess by deleting all the previously created R objects named a, b, c and so on. This we can do with the <code><a href="https://rdrr.io/r/base/rm.html">rm()</a></code> function. There are different ways to use it.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Remove one object</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
+<span><span class="co"># Remove multiple object </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">b</span>, <span class="va">c</span><span class="op">)</span></span>
+<span><span class="co"># Or </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"e"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># To remove everything use the object() function</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">objects</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># and combine the two</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">objects</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># Uups, everthing is gone. If you want to keep something add setdiff</span></span>
+<span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">.c</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span><span class="co"># Remove all but a</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">objects</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>One last trick. Did you notice how you never saw <code>.c</code> in your Global Environment. It was created as a hidden object with the <code>.</code> as a prefix. We can find it with <code>objects(all.names = T)</code> and remove it just the same.</p>
+<p>It is good practice to clean your environment at the end of an analysis chunk or at the end of each script to remove things you don’t need anymore. If we are talking about gigabytes of data instead of those lousy numbers, try <code><a href="https://rdrr.io/r/base/gc.html">gc()</a></code> after deleting the objects.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;If it does not help once, do this &lt;a href="https://stackoverflow.com/a/1467334" class="uri"&gt;https://stackoverflow.com/a/1467334&lt;/a&gt;&lt;/p&gt;'><sup>21</sup></a></p>
+</div>
+</div>
+<div id="summary" class="section level2" number="20.3">
+<h2>
+<span class="header-section-number">20.3</span> Summary<a class="anchor" aria-label="anchor" href="#summary"><i class="fas fa-link"></i></a>
+</h2>
+<p>Thanks for making it this far. This intro to <strong>R Basics</strong> ended up quite extensive, but getting through it should give you all the tools to figure out most problems in R on your own. Not all examples are useful yet, but may come in handy later. Basically every piece of code has been used in my work at one point.</p>
+<p>There are a lot more functions to get to know, especially from the tidyverse, but we will cover them on the way. Please remember:</p>
+<ul>
+<li>Question everything you do not understand or that seems unclear.</li>
+<li>There is always more than one way to get to your goal, redundancy helps us understand things better.</li>
+<li>Let us know, if you have a different or better way to do something, we’re here to discuss!</li>
+</ul>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="the-tidyverse.html"><span class="header-section-number">19</span> The tidyverse</a></div>
+<div class="next"><a href="version-control-with-github.html"><span class="header-section-number">A</span> Version control with GitHub</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#coding-style"><span class="header-section-number">20</span> Coding style</a></li>
+<li><a class="nav-link" href="#coding-style-1"><span class="header-section-number">20.1</span> Coding style</a></li>
+<li>
+<a class="nav-link" href="#data-organization-wihtin-r"><span class="header-section-number">20.2</span> Data organization wihtin R</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#r-projects"><span class="header-section-number">20.2.1</span> R projects</a></li>
+<li><a class="nav-link" href="#lists-and-.lists"><span class="header-section-number">20.2.2</span> Lists and .lists</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#summary"><span class="header-section-number">20.3</span> Summary</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/nicohuttmann/proteomics-data-analysis/blob/master/98-R_basics.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/nicohuttmann/proteomics-data-analysis/edit/master/98-R_basics.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Proteomics Data Analysis in R</strong>" was written by Nico Hüttmann. It was last built on 2025-06-02.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
