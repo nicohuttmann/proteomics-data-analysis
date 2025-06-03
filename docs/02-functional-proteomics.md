@@ -38,6 +38,8 @@ library(ComplexHeatmap)
 ```
 
 
+The PELSA output from the `HT.PELSA` package does not immediately show in which replicates a peptide was identified as a hit. This information can be retrieved from the `data_EC50$data_replicates` table. 
+
 
 ```r
 # Extract replicate hits per peptide 
@@ -45,7 +47,8 @@ data_hit_replicates <- data_EC50$data_replicates %>%
   filter(regulation %in% c("stabilized", "destabilized") & 
            regulation_replicate %in% c("stabilized", "destabilized")) %>% 
   arrange(Peptides, Replicate) %>% 
-  summarise(Replicate.Hits = paste(Replicate[regulation %in% c("stabilized", "destabilized")], 
+  summarise(Replicate.Hits = 
+              paste(Replicate[regulation %in% c("stabilized", "destabilized")], 
                                    collapse = "/"), 
             .by = "Peptides")
 ```
@@ -200,7 +203,7 @@ data_EC50$data_replicates %>%
 ```
 </div>
 
-
+\
 Maybe it helps to plot the difference between the replicate and the mean pEC50 values. This can be done like this.
 
 
@@ -236,11 +239,13 @@ data_EC50$data_replicates %>%
 ```
 </div>
 
-
+\
 Finally, the pEC50 values can be compared among replicates via a correlation matrix of pEC50 values. 
 
 
+
 ```r
+# Correlation matrix of pEC50 values 
 data_EC50$data_replicates %>% 
   dplyr::filter(!is.na(pEC50_mean)) %>% 
   tidyr::pivot_wider(id_cols = "Peptides", 

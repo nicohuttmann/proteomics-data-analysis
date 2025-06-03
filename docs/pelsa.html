@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 7 PELSA | Proteomics Data Analysis in R</title>
 <meta name="author" content="Nico Hüttmann">
-<meta name="description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) # Extract replicate hits per...">
+<meta name="description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) The PELSA output from the...">
 <meta name="generator" content="bookdown 0.38 with bs4_book()">
 <meta property="og:title" content="Chapter 7 PELSA | Proteomics Data Analysis in R">
 <meta property="og:type" content="book">
-<meta property="og:description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) # Extract replicate hits per...">
+<meta property="og:description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) The PELSA output from the...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 7 PELSA | Proteomics Data Analysis in R">
-<meta name="twitter:description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) # Extract replicate hits per...">
+<meta name="twitter:description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) The PELSA output from the...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -96,13 +96,15 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nicohuttmann/pOmics3">pOmics3</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/hms-dbmi/UpSetR">UpSetR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jokergoo/ComplexHeatmap">ComplexHeatmap</a></span><span class="op">)</span></span></code></pre></div>
+<p>The PELSA output from the <code>HT.PELSA</code> package does not immediately show in which replicates a peptide was identified as a hit. This information can be retrieved from the <code>data_EC50$data_replicates</code> table.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Extract replicate hits per peptide </span></span>
 <span><span class="va">data_hit_replicates</span> <span class="op">&lt;-</span> <span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">regulation</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span> <span class="op">&amp;</span> </span>
 <span>           <span class="va">regulation_replicate</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Peptides</span>, <span class="va">Replicate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>Replicate.Hits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">Replicate</span><span class="op">[</span><span class="va">regulation</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>Replicate.Hits <span class="op">=</span> </span>
+<span>              <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">Replicate</span><span class="op">[</span><span class="va">regulation</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">]</span>, </span>
 <span>                                   collapse <span class="op">=</span> <span class="st">"/"</span><span class="op">)</span>, </span>
 <span>            .by <span class="op">=</span> <span class="st">"Peptides"</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we can look at the distribution of peptide hits in across the different replicates.</p>
@@ -224,7 +226,8 @@ destabilized
 <span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"pEC50"</span>, </span>
 <span>                          show_row_names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Maybe it helps to plot the difference between the replicate and the mean pEC50 values. This can be done like this.</p>
+<p><br>
+Maybe it helps to plot the difference between the replicate and the mean pEC50 values. This can be done like this.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># pEC50 - pEC50_mean values</span></span>
 <span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -254,9 +257,11 @@ scaled
 <span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"(pEC50 - pEC50_mean) / pEC50_mean"</span>, </span>
 <span>                          show_row_names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Finally, the pEC50 values can be compared among replicates via a correlation matrix of pEC50 values.</p>
+<p><br>
+Finally, the pEC50 values can be compared among replicates via a correlation matrix of pEC50 values.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="co"># Correlation matrix of pEC50 values </span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">pEC50_mean</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
 <span>                     names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
