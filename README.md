@@ -1,5 +1,5 @@
-# Introduction to Data Analysis and Visualization in R
+# Proteomics Data Analysis in R
 
-Hi, this repository where the course handbook lives. You can check the raw .Rmd files if you are curious how parts of the book were made. 
+Hi, this repository contains a collection workflows, code snippets, and ideas for proteomics data analysis in R. You can find the book here https://nicohuttmann.github.io/proteomics-data-analysis/.
 
-You can find the book here https://nicohuttmann.github.io/embl-bioinfo-pRoteomics/ or by going to Deployments in the bottom right of this page.
+Have fun!
