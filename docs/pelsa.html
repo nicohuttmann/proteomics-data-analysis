@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 7 PELSA | Proteomics Data Analysis in R</title>
 <meta name="author" content="Nico Hüttmann">
-<meta name="description" content="Handbook for Proteomics Data Analysis in R .">
+<meta name="description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) # Extract replicate hits per...">
 <meta name="generator" content="bookdown 0.38 with bs4_book()">
 <meta property="og:title" content="Chapter 7 PELSA | Proteomics Data Analysis in R">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Handbook for Proteomics Data Analysis in R .">
+<meta property="og:description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) # Extract replicate hits per...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 7 PELSA | Proteomics Data Analysis in R">
-<meta name="twitter:description" content="Handbook for Proteomics Data Analysis in R .">
+<meta name="twitter:description" content="7.1 The HT.PELSA package   7.2 QC for Dose-Response Results Let’s load the libraries first. library(tidyverse) library(pOmics3) library(UpSetR) library(ComplexHeatmap) # Extract replicate hits per...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -68,6 +68,8 @@
 <li><a class="" href="coding-style.html"><span class="header-section-number">20</span> Coding style</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="" href="version-control-with-github.html"><span class="header-section-number">A</span> Version control with GitHub</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="blog.html"><span class="header-section-number">B</span> Blog</a></li>
 </ul>
 
         <div class="book-extra">
@@ -79,14 +81,202 @@
 <h1>
 <span class="header-section-number">7</span> PELSA<a class="anchor" aria-label="anchor" href="#pelsa"><i class="fas fa-link"></i></a>
 </h1>
+<div id="the-ht.pelsa-package" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> The HT.PELSA package<a class="anchor" aria-label="anchor" href="#the-ht.pelsa-package"><i class="fas fa-link"></i></a>
+</h2>
+</div>
+<div id="qc-for-dose-response-results" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> QC for Dose-Response Results<a class="anchor" aria-label="anchor" href="#qc-for-dose-response-results"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let’s load the libraries first.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nicohuttmann/pOmics3">pOmics3</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/hms-dbmi/UpSetR">UpSetR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jokergoo/ComplexHeatmap">ComplexHeatmap</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Extract replicate hits per peptide </span></span>
+<span><span class="va">data_hit_replicates</span> <span class="op">&lt;-</span> <span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">regulation</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>           <span class="va">regulation_replicate</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Peptides</span>, <span class="va">Replicate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>Replicate.Hits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">Replicate</span><span class="op">[</span><span class="va">regulation</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>                                   collapse <span class="op">=</span> <span class="st">"/"</span><span class="op">)</span>, </span>
+<span>            .by <span class="op">=</span> <span class="st">"Peptides"</span><span class="op">)</span></span></code></pre></div>
+<p>Next, we can look at the distribution of peptide hits in across the different replicates.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Peptide hit distribution over replicates </span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># Identify hits </span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">regulation</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># Remove unchanged peptide replicates </span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">regulation_replicate</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Peptides</span>, <span class="va">Replicate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>              names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>              values_from <span class="op">=</span> <span class="st">"regulation"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">pOmics3</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2df.html">t2df</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">UpSetR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/UpSetR/man/upset.html">upset</a></span><span class="op">(</span>order.by <span class="op">=</span> <span class="st">"freq"</span>, </span>
+<span>                mainbar.y.label <span class="op">=</span> <span class="st">"# peptide hits"</span>, </span>
+<span>                sets.x.label <span class="op">=</span> <span class="st">"# peptide hits"</span><span class="op">)</span></span></code></pre></div>
+<p>To investigate, whether the the identification biased the replicates towards different numbers of hits, we can check in how many replicates each hit was quantified and a curve fitted.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Distribution of fitted curves for hits </span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># Identify hits </span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">regulation</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Peptides</span>, <span class="va">Replicate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>              names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>              values_from <span class="op">=</span> <span class="st">"do.fit"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na</a></span><span class="op">(</span><span class="va">x</span>, <span class="cn">F</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">pOmics3</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2df.html">t2df</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">UpSetR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/UpSetR/man/upset.html">upset</a></span><span class="op">(</span>order.by <span class="op">=</span> <span class="st">"freq"</span>, </span>
+<span>                mainbar.y.label <span class="op">=</span> <span class="st">"# fitted peptides curves (among hits)"</span>, </span>
+<span>                sets.x.label <span class="op">=</span> <span class="st">"(same as y-axis)"</span><span class="op">)</span></span></code></pre></div>
+<p>Looking good!</p>
+<p>Considering now all peptides for which curves were fitted, we can visualize the first upset plot but this with all fitted peptide curves, independent of them being identified as a hit in the end.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Hit distribution of all fitted curves </span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co">#filter(regulation %in% c("stabilized", "destabilized")) %&gt;% </span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">regulation_replicate</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stabilized"</span>, <span class="st">"destabilized"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Peptides</span>, <span class="va">Replicate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>              names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>              values_from <span class="op">=</span> <span class="st">"regulation"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">pOmics3</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2df.html">t2df</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">UpSetR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/UpSetR/man/upset.html">upset</a></span><span class="op">(</span>order.by <span class="op">=</span> <span class="st">"freq"</span>, </span>
+<span>                mainbar.y.label <span class="op">=</span> <span class="st">"# peptide replicate hits"</span>, </span>
+<span>                sets.x.label <span class="op">=</span> <span class="st">"(same as y-axis)"</span><span class="op">)</span></span></code></pre></div>
+<p>Finally, we can see if the number of fitted peptide curves was equal among all replicates for all peptides.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Distribution of fitted curves for hits </span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co">#filter(regulation %in% c("stabilized", "destabilized")) %&gt;% </span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Peptides</span>, <span class="va">Replicate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>              names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>              values_from <span class="op">=</span> <span class="st">"do.fit"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na</a></span><span class="op">(</span><span class="va">x</span>, <span class="cn">F</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">pOmics3</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2df.html">t2df</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">UpSetR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/UpSetR/man/upset.html">upset</a></span><span class="op">(</span>order.by <span class="op">=</span> <span class="st">"freq"</span>, </span>
+<span>                mainbar.y.label <span class="op">=</span> <span class="st">"# fitted peptides curves (all peptides)"</span>, </span>
+<span>                sets.x.label <span class="op">=</span> <span class="st">"(same as y-axis)"</span><span class="op">)</span></span></code></pre></div>
+<p>Further, we can count the number of peptides quantified per replicate and concentration, and represent it in a heatmap.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Heatmap of number of quantified peptides </span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Peptides</span>, <span class="va">Replicate</span>, <span class="va">found_in</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate_longer_delim.html">separate_longer_delim</a></span><span class="op">(</span><span class="va">found_in</span>, <span class="st">"/"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">Replicate</span>, <span class="va">found_in</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">found_in</span><span class="op">!=</span> <span class="st">""</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"found_in"</span>, values_from <span class="op">=</span> <span class="va">n</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2m.html">t2m</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co">#t() %&gt;% </span></span>
+<span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>cluster_columns <span class="op">=</span> <span class="cn">F</span>, name <span class="op">=</span> <span class="st">"# quantified peptides"</span><span class="op">)</span></span></code></pre></div>
+<p>Don’t get fooled by the automatic color scale!</p>
+<p>Sometimes, there may be a bias within the EC50 values. We can also visualize this.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Heatmap of pEC50 values for hits </span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">pEC50_mean</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>                     names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>                     values_from <span class="op">=</span> <span class="st">"pEC50"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2m.html">t2m</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"pEC50"</span>, </span>
+<span>                          show_row_names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<p>This can be separated into stabilized and destabilized peptides as well.</p>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button1" aria-expanded="false" aria-controls="button1">
+stabilized
+</button>
+<div id="button1" class="collapse">
+<p><br></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># for stabilized hits</span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">pEC50_mean</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">regulation</span> <span class="op">==</span> <span class="st">"stabilized"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>                     names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>                     values_from <span class="op">=</span> <span class="st">"pEC50"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2m.html">t2m</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"pEC50"</span>, </span>
+<span>                          show_row_names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+</div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button2" aria-expanded="false" aria-controls="button2">
+destabilized
+</button>
+<div id="button2" class="collapse">
+<p><br></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># for destabilized hits</span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">pEC50_mean</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">regulation</span> <span class="op">==</span> <span class="st">"destabilized"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>                     names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>                     values_from <span class="op">=</span> <span class="st">"pEC50"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2m.html">t2m</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"pEC50"</span>, </span>
+<span>                          show_row_names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Maybe it helps to plot the difference between the replicate and the mean pEC50 values. This can be done like this.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># pEC50 - pEC50_mean values</span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">pEC50_mean</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>pEC50 <span class="op">=</span> <span class="va">pEC50</span> <span class="op">-</span> <span class="va">pEC50_mean</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>                     names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>                     values_from <span class="op">=</span> <span class="st">"pEC50"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2m.html">t2m</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"pEC50 - pEC50_mean"</span>, </span>
+<span>                          show_row_names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<p>This can be further scaled by dividing the difference by the mean value again.</p>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button3" aria-expanded="false" aria-controls="button3">
+scaled
+</button>
+<div id="button3" class="collapse">
+<p><br></p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Scaled pEC50 - pEC50_mean values</span></span>
+<span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">pEC50_mean</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>pEC50 <span class="op">=</span> <span class="op">(</span><span class="va">pEC50</span> <span class="op">-</span> <span class="va">pEC50_mean</span><span class="op">)</span> <span class="op">/</span> <span class="va">pEC50_mean</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>                     names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>                     values_from <span class="op">=</span> <span class="st">"pEC50"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2m.html">t2m</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"(pEC50 - pEC50_mean) / pEC50_mean"</span>, </span>
+<span>                          show_row_names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Finally, the pEC50 values can be compared among replicates via a correlation matrix of pEC50 values.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_EC50</span><span class="op">$</span><span class="va">data_replicates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">pEC50_mean</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="st">"Peptides"</span>, </span>
+<span>                     names_from <span class="op">=</span> <span class="st">"Replicate"</span>, </span>
+<span>                     values_from <span class="op">=</span> <span class="st">"pEC50"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/t2m.html">t2m</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span>use <span class="op">=</span> <span class="st">"pairwise.complete.obs"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"pEC50"</span><span class="op">)</span></span></code></pre></div>
 
+</div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="spp.html"><span class="header-section-number">6</span> SPP</a></div>
 <div class="next"><a href="overview-1.html"><span class="header-section-number">9</span> Overview</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#pelsa"><span class="header-section-number">7</span> PELSA</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#pelsa"><span class="header-section-number">7</span> PELSA</a></li>
+<li><a class="nav-link" href="#the-ht.pelsa-package"><span class="header-section-number">7.1</span> The HT.PELSA package</a></li>
+<li><a class="nav-link" href="#qc-for-dose-response-results"><span class="header-section-number">7.2</span> QC for Dose-Response Results</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -103,7 +293,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Proteomics Data Analysis in R</strong>" was written by Nico Hüttmann. It was last built on 2025-06-02.</p>
+    <p>"<strong>Proteomics Data Analysis in R</strong>" was written by Nico Hüttmann. It was last built on 2025-06-03.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

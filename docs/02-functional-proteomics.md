@@ -1,18 +1,253 @@
 # (PART\*) Functional Proteomics 
 
+
+
 # Introduction
+
+
 
 
 # TPP
 
+
+
+
 # SPP 
+
+
+
 
 # PELSA
 
 
+## The HT.PELSA package
 
 
 
+## QC for Dose-Response Results
 
 
+Let's load the libraries first. 
+
+
+```r
+library(tidyverse)
+library(pOmics3)
+library(UpSetR)
+library(ComplexHeatmap)
+```
+
+
+
+```r
+# Extract replicate hits per peptide 
+data_hit_replicates <- data_EC50$data_replicates %>% 
+  filter(regulation %in% c("stabilized", "destabilized") & 
+           regulation_replicate %in% c("stabilized", "destabilized")) %>% 
+  arrange(Peptides, Replicate) %>% 
+  summarise(Replicate.Hits = paste(Replicate[regulation %in% c("stabilized", "destabilized")], 
+                                   collapse = "/"), 
+            .by = "Peptides")
+```
+
+
+
+Next, we can look at the distribution of peptide hits in across the different replicates.
+
+
+```r
+# Peptide hit distribution over replicates 
+data_EC50$data_replicates %>% 
+  # Identify hits 
+  filter(regulation %in% c("stabilized", "destabilized")) %>% 
+  # Remove unchanged peptide replicates 
+  filter(regulation_replicate %in% c("stabilized", "destabilized")) %>% 
+  arrange(Peptides, Replicate) %>% 
+  pivot_wider(id_cols = "Peptides", 
+              names_from = "Replicate", 
+              values_from = "regulation") %>% 
+  mutate(across(2:5, \(x) as.numeric(!is.na(x)))) %>% 
+  pOmics3::t2df() %>% 
+  UpSetR::upset(order.by = "freq", 
+                mainbar.y.label = "# peptide hits", 
+                sets.x.label = "# peptide hits")
+```
+
+To investigate, whether the the identification biased the replicates towards different numbers of hits, we can check in how many replicates each hit was quantified and a curve fitted.
+
+
+```r
+# Distribution of fitted curves for hits 
+data_EC50$data_replicates %>% 
+  # Identify hits 
+  dplyr::filter(regulation %in% c("stabilized", "destabilized")) %>% 
+  dplyr::arrange(Peptides, Replicate) %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+              names_from = "Replicate", 
+              values_from = "do.fit") %>% 
+  dplyr::mutate(across(2:5, \(x) as.numeric(tidyr::replace_na(x, F)))) %>% 
+  pOmics3::t2df() %>% 
+  UpSetR::upset(order.by = "freq", 
+                mainbar.y.label = "# fitted peptides curves (among hits)", 
+                sets.x.label = "(same as y-axis)")
+```
+
+Looking good! 
+
+Considering now all peptides for which curves were fitted, we can visualize the first upset plot but this with all fitted peptide curves, independent of them being identified as a hit in the end. 
+
+
+```r
+# Hit distribution of all fitted curves 
+data_EC50$data_replicates %>% 
+  #filter(regulation %in% c("stabilized", "destabilized")) %>% 
+  dplyr::filter(regulation_replicate %in% c("stabilized", "destabilized")) %>% 
+  dplyr::arrange(Peptides, Replicate) %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+              names_from = "Replicate", 
+              values_from = "regulation") %>% 
+  mutate(across(2:5, \(x) as.numeric(!is.na(x)))) %>% 
+  pOmics3::t2df() %>% 
+  UpSetR::upset(order.by = "freq", 
+                mainbar.y.label = "# peptide replicate hits", 
+                sets.x.label = "(same as y-axis)")
+```
+
+
+Finally, we can see if the number of fitted peptide curves was equal among all replicates for all peptides.
+
+
+```r
+# Distribution of fitted curves for hits 
+data_EC50$data_replicates %>% 
+  #filter(regulation %in% c("stabilized", "destabilized")) %>% 
+  dplyr::arrange(Peptides, Replicate) %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+              names_from = "Replicate", 
+              values_from = "do.fit") %>% 
+  dplyr::mutate(across(2:5, \(x) as.numeric(tidyr::replace_na(x, F)))) %>% 
+  pOmics3::t2df() %>% 
+  UpSetR::upset(order.by = "freq", 
+                mainbar.y.label = "# fitted peptides curves (all peptides)", 
+                sets.x.label = "(same as y-axis)")
+```
+
+
+Further, we can count the number of peptides quantified per replicate and concentration, and represent it in a heatmap. 
+
+
+```r
+# Heatmap of number of quantified peptides 
+data_EC50$data_replicates %>% 
+  dplyr::select(Peptides, Replicate, found_in) %>% 
+  tidyr::separate_longer_delim(found_in, "/") %>% 
+  dplyr::count(Replicate, found_in) %>% 
+  dplyr::filter(found_in!= "") %>% 
+  tidyr::pivot_wider(names_from = "found_in", values_from = n) %>% 
+  t2m() %>% 
+  #t() %>% 
+  ComplexHeatmap::Heatmap(cluster_columns = F, name = "# quantified peptides")
+```
+
+Don't get fooled by the automatic color scale!
+
+Sometimes, there may be a bias within the EC50 values. We can also visualize this.
+
+
+```r
+# Heatmap of pEC50 values for hits 
+data_EC50$data_replicates %>% 
+  dplyr::filter(!is.na(pEC50_mean)) %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+                     names_from = "Replicate", 
+                     values_from = "pEC50") %>% 
+  t2m() %>% 
+  ComplexHeatmap::Heatmap(name = "pEC50", 
+                          show_row_names = F)
+```
+
+This can be separated into stabilized and destabilized peptides as well.
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button1" aria-expanded="false" aria-controls="button1"> stabilized </button> <div id="button1" class="collapse">  
+\
+
+```r
+# for stabilized hits
+data_EC50$data_replicates %>% 
+  dplyr::filter(!is.na(pEC50_mean) & regulation == "stabilized") %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+                     names_from = "Replicate", 
+                     values_from = "pEC50") %>% 
+  t2m() %>% 
+  ComplexHeatmap::Heatmap(name = "pEC50", 
+                          show_row_names = F)
+```
+</div>
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button2" aria-expanded="false" aria-controls="button2"> destabilized </button> <div id="button2" class="collapse">  
+\
+
+```r
+# for destabilized hits
+data_EC50$data_replicates %>% 
+  dplyr::filter(!is.na(pEC50_mean) & regulation == "destabilized") %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+                     names_from = "Replicate", 
+                     values_from = "pEC50") %>% 
+  t2m() %>% 
+  ComplexHeatmap::Heatmap(name = "pEC50", 
+                          show_row_names = F)
+```
+</div>
+
+
+Maybe it helps to plot the difference between the replicate and the mean pEC50 values. This can be done like this.
+
+
+```r
+# pEC50 - pEC50_mean values
+data_EC50$data_replicates %>% 
+  dplyr::filter(!is.na(pEC50_mean)) %>% 
+  dplyr::mutate(pEC50 = pEC50 - pEC50_mean) %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+                     names_from = "Replicate", 
+                     values_from = "pEC50") %>% 
+  t2m() %>% 
+  ComplexHeatmap::Heatmap(name = "pEC50 - pEC50_mean", 
+                          show_row_names = F)
+```
+
+This can be further scaled by dividing the difference by the mean value again. 
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button3" aria-expanded="false" aria-controls="button3"> scaled </button> <div id="button3" class="collapse">  
+\
+
+```r
+# Scaled pEC50 - pEC50_mean values
+data_EC50$data_replicates %>% 
+  dplyr::filter(!is.na(pEC50_mean)) %>% 
+  dplyr::mutate(pEC50 = (pEC50 - pEC50_mean) / pEC50_mean) %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+                     names_from = "Replicate", 
+                     values_from = "pEC50") %>% 
+  t2m() %>% 
+  ComplexHeatmap::Heatmap(name = "(pEC50 - pEC50_mean) / pEC50_mean", 
+                          show_row_names = F)
+```
+</div>
+
+
+Finally, the pEC50 values can be compared among replicates via a correlation matrix of pEC50 values. 
+
+
+```r
+data_EC50$data_replicates %>% 
+  dplyr::filter(!is.na(pEC50_mean)) %>% 
+  tidyr::pivot_wider(id_cols = "Peptides", 
+                     names_from = "Replicate", 
+                     values_from = "pEC50") %>% 
+  t2m() %>% 
+  cor(use = "pairwise.complete.obs") %>% 
+  ComplexHeatmap::Heatmap(name = "pEC50")
+```
 

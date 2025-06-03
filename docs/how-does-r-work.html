@@ -68,6 +68,8 @@
 <li><a class="" href="coding-style.html"><span class="header-section-number">20</span> Coding style</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="" href="version-control-with-github.html"><span class="header-section-number">A</span> Version control with GitHub</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="blog.html"><span class="header-section-number">B</span> Blog</a></li>
 </ul>
 
         <div class="book-extra">
@@ -97,7 +99,7 @@ Done?
 <p><br>
 The most important takeaway from this is that you can assign/create an object in R with the assignment operator <code>&lt;-</code>. And while we are at it, the <strong>c</strong> ombine function <code><a href="https://rdrr.io/r/base/c.html">c()</a></code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;which I always called vector, and wondered where the c is coming from…&lt;/p&gt;"><sup>8</sup></a> will be one of the most frequently used functions in R.</p>
 <p>You can simply copy the code below by marking it or pressing this helpful button in the top right corner of the code chunk and paste it into your R script. Then just run the lines of code and have a look at what they produce.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Assign the vector to an object called numbers</span></span>
 <span><span class="va">numbers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co"># Execute the following line to print it to the console</span></span>
@@ -108,7 +110,7 @@ The most important takeaway from this is that you can assign/create an object in
 </div>
 <p><br>
 What we have created here is called a vector, and more precisely an atomic vector. This means its elements are all of the same type. You can read more on this in the <a href="https://adv-r.hadley.nz/vectors-chap.html">Vectors</a> chapter of <a href="https://adv-r.hadley.nz/">Advanced R</a> if you have some waiting time or if you are unsure about the behavior of your vectors. Examples would be:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mixed_numbers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="st">"three"</span><span class="op">)</span></span>
 <span><span class="va">mixed_numbers_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">F</span>, <span class="cn">TRUE</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co"># You don't actually need to assign them</span></span>
@@ -119,7 +121,7 @@ I am lazy.
 </button>
 <div id="button2" class="collapse">
 <p><br></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="st">"three"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="cn">F</span>, <span class="cn">TRUE</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"these"</span> <span class="op">=</span> <span class="cn">F</span>, <span class="st">"are"</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="st">"names"</span> <span class="op">=</span> <span class="fl">2</span>, <span class="st">"three"</span><span class="op">)</span></span>
@@ -137,12 +139,12 @@ The other data types can be found in the <a href="https://adv-r.hadley.nz/vector
 </h2>
 <p>Besides the most basic object in R, a vector, we have also covered two functions as well. The <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> and the <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> functions which allow us to create atomic vector and list objects. If you want to understand a function, simply write <code><a href="https://rdrr.io/r/base/c.html">?c</a></code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;question mark + function name&lt;/p&gt;"><sup>11</sup></a> and R will prompt you to the documentation of the function in the Help pane on the bottom right.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Or google the function like a normal human being.&lt;/p&gt;"><sup>12</sup></a></p>
 <p>The number of functions exceeds the number of object types by far, therefore we should see how to use functions properly. Each function 1. has a name, 2. is an object itself and 3. can be evoked by <code>()</code> brakets following its name. Let’s try this:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p>Nice! But bad example. Write the function name <code>sum</code> again and wait for a list of options to appear. If this does not happen, you can press Tab. Once you see a list, scroll through it with your arrow buttons and choose a function with Tab or Enter. Once your cursor is in between the brackets of the function, press Tab again. Now, you see the arguments of a function. Arguments are the different inputs for a function and declare precisely which input goes where within the function. Our bad example has a special type of argument <code>...</code>, the <a href="https://adv-r.hadley.nz/functions.html?q=...#fun-dot-dot-dot">(dot-dot-dot)</a>, that accepts an undefined number of arguments, in this case multiple numbers.</p>
-<p>A better example is the <code><a href="https://rdrr.io/r/base/sets.html">intersect()</a></code> function, which takes two sets in form of atomic vectors <code>x</code> and <code>y</code> and returns the intersection.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, </span>
+<p>A better example is the <code><a href="https://generics.r-lib.org/reference/setops.html">intersect()</a></code> function, which takes two sets in form of atomic vectors <code>x</code> and <code>y</code> and returns the intersection.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, </span>
 <span>          y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The other <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sets.html">Set Operation</a> functions will be useful at one point for sure. Another resource worth mentioning for this example and in generalis the <a href="https://www.r-bloggers.com/2024/11/the-complete-guide-to-using-setdiff-in-r-examples-and-best-practices/">R-bloggers website</a>.</p>
 <p>For a formal description of functions, you can read <a href="https://adv-r.hadley.nz/functions.html?q=...#function-fundamentals">Function fundamentals</a>. And now let’s see where all these functions come from.</p>
@@ -175,7 +177,7 @@ The other data types can be found in the <a href="https://adv-r.hadley.nz/vector
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Proteomics Data Analysis in R</strong>" was written by Nico Hüttmann. It was last built on 2025-06-02.</p>
+    <p>"<strong>Proteomics Data Analysis in R</strong>" was written by Nico Hüttmann. It was last built on 2025-06-03.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -68,6 +68,8 @@
 <li><a class="" href="coding-style.html"><span class="header-section-number">20</span> Coding style</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="" href="version-control-with-github.html"><span class="header-section-number">A</span> Version control with GitHub</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="blog.html"><span class="header-section-number">B</span> Blog</a></li>
 </ul>
 
         <div class="book-extra">
@@ -93,10 +95,10 @@
 <p>“The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.”</p>
 </blockquote>
 <p>We can install packages from CRAN with the <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> function like this:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span></code></pre></div>
 <p>Note, that we can also download more than one package at once using a vector (<code><a href="https://rdrr.io/r/base/c.html">c()</a></code>) containing all package names:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, <span class="st">"devtools"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><code>BiocManager</code> as well as <code>devtools</code> will be used in the following to download R packages from other sources.</p>
 </div>
@@ -105,8 +107,8 @@
 <span class="header-section-number">18.2</span> From Bioconductor<a class="anchor" aria-label="anchor" href="#from-bioconductor"><i class="fas fa-link"></i></a>
 </h2>
 <p>The <a href="https://bioconductor.org/">Bioconductor</a> is a collection of R packages for bioinformatics purposes. The first packages we will need from the Bioconductor will be downloaded with the <code>install()</code> function from the <code>BiocManager</code> package:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"fgsea"</span>,</span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"fgsea"</span>,</span>
 <span>                       <span class="st">"org.Hs.eg.db"</span>,</span>
 <span>                       <span class="st">"UniProt.ws"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -116,8 +118,8 @@
 </h2>
 <p>Another important source of R packages is GitHub. GitHub is not just the place where most R packages are being developed before they are put to repositories such as CRAN or Bioconductor, many other packages including the <code>PELSA</code> package can be installed from it as well.</p>
 <p>Here is an example with the <code>install_github()</code> function from the <code>devtools</code> package. This package is not required yet.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"nicohuttmann/PELSA"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"nicohuttmann/PELSA"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 
@@ -148,7 +150,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Proteomics Data Analysis in R</strong>" was written by Nico Hüttmann. It was last built on 2025-06-02.</p>
+    <p>"<strong>Proteomics Data Analysis in R</strong>" was written by Nico Hüttmann. It was last built on 2025-06-03.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

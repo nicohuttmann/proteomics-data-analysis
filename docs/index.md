@@ -1,7 +1,7 @@
 --- 
 title: "Proteomics Data Analysis in R"
 author: "Nico Hüttmann"
-date: "2025-06-02"
+date: "2025-06-03"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -17,7 +17,7 @@ csl: chicago-fullnote-bibliography.csl
 
 # Preface {-}
 
-Hi y'all, welcome to this little collection of workflows, code snippets, ideas and references for proteomics data analysis. Written by me, for me,^[I am losing control over all the different scripts and stuff.] but hopefully useful to you as well!
+Hi y'all, welcome to this little collection of workflows, code snippets, and ideas for proteomics data analysis. Written by me, for me,^[I am losing control over all the different scripts and stuff.] but hopefully useful to you as well!
 
 This is the nth attempt of producing something coherent and useful over a longer period of time.^[see the first version [here](https://nicohuttmann.github.io/pOmics-handbook/) and my latest try [here](https://nicohuttmann.github.io/embl-bioinfo-pRoteomics/)] We'll see how this goes :)
 
