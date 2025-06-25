@@ -1,7 +1,7 @@
 --- 
 title: "Proteomics Data Analysis in R"
 author: "Nico Hüttmann"
-date: "2025-06-03"
+date: "2025-06-25"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]

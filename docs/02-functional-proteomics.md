@@ -38,6 +38,16 @@ library(ComplexHeatmap)
 ```
 
 
+
+
+```r
+"Z:/savitski/02_projects/16_PELSAopti/HT-PELSA_publication/rawdata/ATP_DD_report.pr_matrix.tsv"
+#> [1] "Z:/savitski/02_projects/16_PELSAopti/HT-PELSA_publication/rawdata/ATP_DD_report.pr_matrix.tsv"
+```
+
+
+
+
 The PELSA output from the `HT.PELSA` package does not immediately show in which replicates a peptide was identified as a hit. This information can be retrieved from the `data_EC50$data_replicates` table. 
 
 

@@ -1,5 +1,9 @@
 part-the-proteomics-workflow
 overview
+data-handling
+import
+preprocessing
+section
 part-functional-proteomics
 introduction
 tpp
@@ -13,6 +17,8 @@ part-databases-and-enrichment-analysis
 overview-2
 part-data-visualization
 overview-3
+interactive-data-analysis
+quick-example
 part-miscellaneous
 raw-ms-data
 introduction-1
@@ -46,4 +52,4 @@ gitignore-does-not-instantly-work
 appendix-appendix-1
 blog
 idea
-section
+section-1

@@ -5,5 +5,53 @@
 
 
 
+# Interactive Data Analysis
+
+## Quick example
+
+A non-app interactive Volcano plot that connects to its original data:
+- interactive plot via `ggplot2` and `plotly`
+- connection between plot and table via `crosstalk` ([check it out](https://rstudio.github.io/crosstalk/index.html))
+- canvas to put both together with `bslib`
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(plotly)
+library(crosstalk)
+library(bslib)
+library(DT)
+
+
+# Our data
+data <- tibble(x = c(1, 2, 3), 
+               y = c(1, 2, 3), 
+               gene = c("A", "B", "C"))
+
+# Plot 
+data %>% 
+  ggplot(aes(x = x, y = y, gene = gene)) + 
+  geom_point() + 
+  theme_classic()
+
+# Shared data object 
+data_plot <- SharedData$new(data = data, 
+                            key = ~gene)
+
+# Initial plot 
+p <- data_plot %>% 
+  ggplot(aes(x = x, y = y, gene = gene)) + 
+  geom_point() + 
+  theme_classic()
+
+# Make plot interactive 
+ggplotly(p)
+
+# Put all together 
+page_fillable(ggplotly(p), 
+              datatable(data_plot, selection = "single"))
+
+```
+
+
 
 
