@@ -90,7 +90,7 @@
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Datasets</span><span class="op">[[</span><span class="st">"dataset_SILAC"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">import2new_dataset_diann_precursor_SILAC</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/import2new_dataset_diann_precursor_SILAC.html">import2new_dataset_diann_precursor_SILAC</a></span><span class="op">(</span></span>
 <span>    raw.data <span class="op">=</span> <span class="va">Info</span><span class="op">$</span><span class="va">Imports</span><span class="op">$</span><span class="va">dataset_SILAC</span>,</span>
 <span>    variables.data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Protein.Group"</span>,</span>
 <span>                       <span class="st">"Protein.Ids"</span>,</span>
@@ -117,25 +117,25 @@
 <span>                    <span class="st">"Ms1.Normalised"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># pull all sample names </span></span>
-<span><span class="va">Info</span><span class="op">$</span><span class="va">Imports</span><span class="op">$</span><span class="va">sta10_6mz</span><span class="op">$</span><span class="va">Run</span> <span class="op">%&gt;%</span> </span>
+<span><span class="va">Info</span><span class="op">$</span><span class="va">Imports</span><span class="op">$</span><span class="va">sta10_6mz</span><span class="op">$</span><span class="va">Run</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co"># keep individual names in desired order </span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span>decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span>decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co"># add names to vector </span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">.</span>, <span class="fu">strsplit_keep_last</span><span class="op">(</span><span class="va">.</span>, <span class="st">"_"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">.</span>, <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/strsplit_keep_last.html">strsplit_keep_last</a></span><span class="op">(</span><span class="va">.</span>, <span class="st">"_"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co"># print vector to copy to script </span></span>
-<span>  <span class="fu">.cat_character_named</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/dot-cat_character_named.html">.cat_character_named</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#button1" aria-expanded="false" aria-controls="button1">
 plain
 </button>
 <div id="button1" class="collapse">
 <p><br></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Info</span><span class="op">$</span><span class="va">Imports</span><span class="op">$</span><span class="va">sta10_6mz</span><span class="op">$</span><span class="va">Run</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span>decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">.</span>, <span class="fu">strsplit_keep_last</span><span class="op">(</span><span class="va">.</span>, <span class="st">"_"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">.cat_character_named</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">Info</span><span class="op">$</span><span class="va">Imports</span><span class="op">$</span><span class="va">sta10_6mz</span><span class="op">$</span><span class="va">Run</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span>decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">.</span>, <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/strsplit_keep_last.html">strsplit_keep_last</a></span><span class="op">(</span><span class="va">.</span>, <span class="st">"_"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/pOmics3/man/dot-cat_character_named.html">.cat_character_named</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p><br>
 abc</p>

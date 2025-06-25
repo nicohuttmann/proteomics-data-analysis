@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 16 Interactive Data Analysis | Proteomics Data Analysis in R</title>
 <meta name="author" content="Nico Hüttmann">
-<meta name="description" content="16.1 Quick example A non-app interactive Volcano plot that connects to its original data: - interactive plot via ggplot2 and plotly - connection between plot and table via crosstalk (check it out)...">
+<meta name="description" content="16.1 Quick example A non-app interactive Volcano plot that connects to its original data: interactive plot via ggplot2 and plotly connection between plot and table via crosstalk (check it out)...">
 <meta name="generator" content="bookdown 0.38 with bs4_book()">
 <meta property="og:title" content="Chapter 16 Interactive Data Analysis | Proteomics Data Analysis in R">
 <meta property="og:type" content="book">
-<meta property="og:description" content="16.1 Quick example A non-app interactive Volcano plot that connects to its original data: - interactive plot via ggplot2 and plotly - connection between plot and table via crosstalk (check it out)...">
+<meta property="og:description" content="16.1 Quick example A non-app interactive Volcano plot that connects to its original data: interactive plot via ggplot2 and plotly connection between plot and table via crosstalk (check it out)...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 16 Interactive Data Analysis | Proteomics Data Analysis in R">
-<meta name="twitter:description" content="16.1 Quick example A non-app interactive Volcano plot that connects to its original data: - interactive plot via ggplot2 and plotly - connection between plot and table via crosstalk (check it out)...">
+<meta name="twitter:description" content="16.1 Quick example A non-app interactive Volcano plot that connects to its original data: interactive plot via ggplot2 and plotly connection between plot and table via crosstalk (check it out)...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -88,17 +88,20 @@
 <h2>
 <span class="header-section-number">16.1</span> Quick example<a class="anchor" aria-label="anchor" href="#quick-example"><i class="fas fa-link"></i></a>
 </h2>
-<p>A non-app interactive Volcano plot that connects to its original data:
-- interactive plot via <code>ggplot2</code> and <code>plotly</code>
-- connection between plot and table via <code>crosstalk</code> (<a href="https://rstudio.github.io/crosstalk/index.html">check it out</a>)
-- canvas to put both together with <code>bslib</code></p>
+<p>A non-app interactive Volcano plot that connects to its original data:</p>
+<ul>
+<li>interactive plot via <code>ggplot2</code> and <code>plotly</code>
+</li>
+<li>connection between plot and table via <code>crosstalk</code> (<a href="https://rstudio.github.io/crosstalk/index.html">check it out</a>)</li>
+<li>canvas to put both together with <code>bslib</code>
+</li>
+</ul>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com">plotly</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/crosstalk/">crosstalk</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/bslib/">bslib</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT">DT</a></span><span class="op">)</span></span>
-<span></span>
 <span></span>
 <span><span class="co"># Our data</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, </span>

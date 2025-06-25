@@ -10,6 +10,7 @@
 ## Quick example
 
 A non-app interactive Volcano plot that connects to its original data:
+
 - interactive plot via `ggplot2` and `plotly`
 - connection between plot and table via `crosstalk` ([check it out](https://rstudio.github.io/crosstalk/index.html))
 - canvas to put both together with `bslib`
@@ -21,7 +22,6 @@ library(plotly)
 library(crosstalk)
 library(bslib)
 library(DT)
-
 
 # Our data
 data <- tibble(x = c(1, 2, 3), 
