@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 27 Blog | Proteomics Data Analysis in R</title>
+<title>Chapter 26 Blog | Proteomics Data Analysis in R</title>
 <meta name="author" content="Nico Hüttmann">
-<meta name="description" content="27.1 Idea   27.2">
+<meta name="description" content="26.1 Idea">
 <meta name="generator" content="bookdown 0.38 with bs4_book()">
-<meta property="og:title" content="Chapter 27 Blog | Proteomics Data Analysis in R">
+<meta property="og:title" content="Chapter 26 Blog | Proteomics Data Analysis in R">
 <meta property="og:type" content="book">
-<meta property="og:description" content="27.1 Idea   27.2">
+<meta property="og:description" content="26.1 Idea">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 27 Blog | Proteomics Data Analysis in R">
-<meta name="twitter:description" content="27.1 Idea   27.2">
+<meta name="twitter:title" content="Chapter 26 Blog | Proteomics Data Analysis in R">
+<meta name="twitter:description" content="26.1 Idea">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -48,27 +48,26 @@
 <li class="book-part">The Proteomics Workflow</li>
 <li><a class="" href="overview.html"><span class="header-section-number">2</span> Overview</a></li>
 <li><a class="" href="data-handling.html"><span class="header-section-number">3</span> Data Handling</a></li>
-<li><a class="" href="section.html"><span class="header-section-number">4</span></a></li>
 <li class="book-part">Functional Proteomics</li>
-<li><a class="" href="introduction.html"><span class="header-section-number">6</span> Introduction</a></li>
-<li><a class="" href="tpp.html"><span class="header-section-number">7</span> TPP</a></li>
-<li><a class="" href="spp.html"><span class="header-section-number">8</span> SPP</a></li>
-<li><a class="" href="pelsa.html"><span class="header-section-number">9</span> PELSA</a></li>
+<li><a class="" href="introduction.html"><span class="header-section-number">5</span> Introduction</a></li>
+<li><a class="" href="tpp.html"><span class="header-section-number">6</span> TPP</a></li>
+<li><a class="" href="spp.html"><span class="header-section-number">7</span> SPP</a></li>
+<li><a class="" href="pelsa.html"><span class="header-section-number">8</span> PELSA</a></li>
 <li class="book-part">Protein Turnover Analysis</li>
-<li><a class="" href="overview-1.html"><span class="header-section-number">11</span> Overview</a></li>
+<li><a class="" href="overview-1.html"><span class="header-section-number">10</span> Overview</a></li>
 <li class="book-part">Databases and Enrichment Analysis</li>
-<li><a class="" href="overview-2.html"><span class="header-section-number">13</span> Overview</a></li>
+<li><a class="" href="overview-2.html"><span class="header-section-number">12</span> Overview</a></li>
 <li class="book-part">Data Visualization</li>
-<li><a class="" href="overview-3.html"><span class="header-section-number">15</span> Overview</a></li>
-<li><a class="" href="interactive-data-analysis.html"><span class="header-section-number">16</span> Interactive Data Analysis</a></li>
+<li><a class="" href="overview-3.html"><span class="header-section-number">14</span> Overview</a></li>
+<li><a class="" href="interactive-data-analysis.html"><span class="header-section-number">15</span> Interactive Data Analysis</a></li>
 <li class="book-part">Miscellaneous</li>
-<li><a class="" href="raw-ms-data.html"><span class="header-section-number">18</span> Raw MS Data</a></li>
+<li><a class="" href="raw-ms-data.html"><span class="header-section-number">17</span> Raw MS Data</a></li>
 <li class="book-part">R Basics</li>
-<li><a class="" href="r-and-rstudio.html"><span class="header-section-number">19</span> R and RStudio</a></li>
-<li><a class="" href="how-does-r-work.html"><span class="header-section-number">20</span> How does R work?</a></li>
-<li><a class="" href="r-packages.html"><span class="header-section-number">21</span> R packages</a></li>
-<li><a class="" href="the-tidyverse.html"><span class="header-section-number">22</span> The tidyverse</a></li>
-<li><a class="" href="coding-style.html"><span class="header-section-number">23</span> Coding style</a></li>
+<li><a class="" href="r-and-rstudio.html"><span class="header-section-number">18</span> R and RStudio</a></li>
+<li><a class="" href="how-does-r-work.html"><span class="header-section-number">19</span> How does R work?</a></li>
+<li><a class="" href="r-packages.html"><span class="header-section-number">20</span> R packages</a></li>
+<li><a class="" href="the-tidyverse.html"><span class="header-section-number">21</span> The tidyverse</a></li>
+<li><a class="" href="coding-style.html"><span class="header-section-number">22</span> Coding style</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="" href="version-control-with-github.html"><span class="header-section-number">A</span> Version control with GitHub</a></li>
 <li class="book-part">Appendix</li>
@@ -80,18 +79,13 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="blog" class="section level1" number="27">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="blog" class="section level1" number="26">
 <h1>
-<span class="header-section-number">27</span> Blog<a class="anchor" aria-label="anchor" href="#blog"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26</span> Blog<a class="anchor" aria-label="anchor" href="#blog"><i class="fas fa-link"></i></a>
 </h1>
-<div id="idea" class="section level2" number="27.1">
+<div id="idea" class="section level2" number="26.1">
 <h2>
-<span class="header-section-number">27.1</span> Idea<a class="anchor" aria-label="anchor" href="#idea"><i class="fas fa-link"></i></a>
-</h2>
-</div>
-<div id="section-1" class="section level2" number="27.2">
-<h2>
-<span class="header-section-number">27.2</span> <a class="anchor" aria-label="anchor" href="#section-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.1</span> Idea<a class="anchor" aria-label="anchor" href="#idea"><i class="fas fa-link"></i></a>
 </h2>
 
 </div>
@@ -131,7 +125,6 @@
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#blog"><span class="header-section-number">B</span> Blog</a></li>
 <li><a class="nav-link" href="#idea"><span class="header-section-number">B.1</span> Idea</a></li>
-<li><a class="nav-link" href="#section-1"><span class="header-section-number">B.2</span></a></li>
 </ul>
 
       <div class="book-extra">

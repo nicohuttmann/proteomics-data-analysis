@@ -16,6 +16,7 @@ A non-app interactive Volcano plot that connects to its original data:
 - canvas to put both together with `bslib`
 
 
+
 ```r
 library(tidyverse)
 library(plotly)
@@ -48,11 +49,23 @@ p <- data_plot %>%
 ggplotly(p)
 
 # Put all together 
-page_fillable(ggplotly(p), 
+page_fillable(ggplotly(p, ), 
               datatable(data_plot, selection = "single"))
 
 ```
 
+Done! One more function `layout_columns` will allow us to make it a bit more screen-friendly.
 
 
+```r
+# Add a specific layout 
+page_fillable(
+  layout_columns(
+    col_widths = c(6, 6), 
+    row_heights = 1, 
+    ggplotly(p), 
+    datatable(data_plot, selection = "single")))
+```
+
+Oh, and if you would like to use this tool to select a number of points in the plot, simply change the `selection` argument in `datatable` to `"multiple"`. Have fun, Tara :)
 

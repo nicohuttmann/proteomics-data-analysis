@@ -3,7 +3,6 @@ overview
 data-handling
 import
 preprocessing
-section
 part-functional-proteomics
 introduction
 tpp
@@ -52,4 +51,3 @@ gitignore-does-not-instantly-work
 appendix-appendix-1
 blog
 idea
-section-1
